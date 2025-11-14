@@ -1,0 +1,15 @@
+---
+description: NestJS architectural patterns and best practices
+globs: "src/**/*.ts"
+---
+
+# NestJS Patterns
+
+- Use modules to organize features
+- Controllers handle HTTP requests/responses only
+- Services contain business logic
+- DTOs for all data transfer with validation
+- Use dependency injection for all dependencies
+- Logger instance in every service
+- Proper HTTP status codes (201 for create, 204 for delete, etc.)
+- Exception filters for error handling

@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🔍 Running pre-commit validation..."
+
+# Run lint-staged for staged files (handles linting, formatting, and related tests)
+npx lint-staged || {
+  echo "❌ Pre-commit validation failed. Fix errors and try again."
+  exit 1
+}
+
+echo "✅ Pre-commit validation passed!"
+

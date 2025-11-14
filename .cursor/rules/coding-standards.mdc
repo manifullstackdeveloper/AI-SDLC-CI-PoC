@@ -1,0 +1,30 @@
+---
+description: AI Coding Standards for SDLC1 - Core development rules
+globs: "**/*.ts"
+---
+
+# AI Coding Standards for SDLC1
+
+## Core Rules
+- Use TypeScript strict mode, no `any` types
+- All DTOs must use class-validator decorators
+- Services must include Logger for operations
+- Controllers must use proper HTTP status codes
+- All methods must handle errors with proper exceptions
+- Write unit tests for all services and controllers
+- Follow NestJS architectural patterns (modules, controllers, services, DTOs)
+- Use dependency injection, avoid direct instantiation
+- Validate all inputs using DTOs and ValidationPipe
+- Log all operations (create, read, update, delete)
+
+## Security
+- Never expose sensitive data in logs
+- Validate and sanitize all inputs
+- Use proper HTTP status codes
+- Handle errors gracefully without exposing internals
+
+## Code Quality
+- ESLint must pass with no errors
+- Prettier formatting required
+- Test coverage minimum 80%
+- All tests must pass before commit

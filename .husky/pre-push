@@ -1,0 +1,25 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🧪 Running pre-push validation..."
+
+# Run tests with coverage
+npm run test:cov || {
+  echo "❌ Tests failed. Fix tests before pushing."
+  exit 1
+}
+
+# Check coverage threshold
+COVERAGE=$(node -e "const data = require('./coverage/coverage-summary.json'); const pct = data.total.lines.pct; if (pct < 80) { console.error('Coverage ' + pct + '% is below 80% threshold'); process.exit(1); } else { console.log('Coverage: ' + pct + '%'); }") || {
+  echo "❌ Coverage below 80% threshold."
+  exit 1
+}
+
+# Build project
+npm run build || {
+  echo "❌ Build failed. Fix build errors before pushing."
+  exit 1
+}
+
+echo "✅ Pre-push validation passed!"
+
