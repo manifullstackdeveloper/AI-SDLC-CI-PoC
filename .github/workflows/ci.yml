@@ -9,6 +9,7 @@ on:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    continue-on-error: false
     
     steps:
       - uses: actions/checkout@v4
@@ -22,40 +23,132 @@ jobs:
       - name: Install dependencies
         run: npm ci
       
+      - name: Install Semgrep
+        run: |
+          pip3 install semgrep || echo "semgrep_install_failed=true" >> $GITHUB_ENV
+      
+      - name: Install OPA
+        run: |
+          curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64
+          chmod +x opa
+          sudo mv opa /usr/local/bin/ || mv opa /usr/local/bin/
+      
+      - name: Run Semgrep security scan
+        continue-on-error: true
+        id: semgrep
+        run: npm run semgrep || echo "semgrep_failed=true" >> $GITHUB_ENV
+      
+      - name: Run OPA policy validation
+        continue-on-error: true
+        id: opa
+        run: npm run opa || echo "opa_failed=true" >> $GITHUB_ENV
+      
       - name: Run linter
-        run: npm run lint
+        continue-on-error: true
+        id: lint
+        run: npm run lint:check || echo "lint_failed=true" >> $GITHUB_ENV
       
       - name: Format check
-        run: npx prettier --check "src/**/*.ts" "test/**/*.ts"
+        continue-on-error: true
+        id: format
+        run: npm run format:check || echo "format_failed=true" >> $GITHUB_ENV
       
       - name: Run tests with coverage
-        run: npm run test:cov
+        continue-on-error: true
+        id: tests
+        run: npm run test:cov || echo "tests_failed=true" >> $GITHUB_ENV
       
       - name: Check coverage threshold
+        continue-on-error: true
+        id: coverage
         run: |
-          COVERAGE=$(node -e "const data = require('./coverage/coverage-summary.json'); const pct = data.total.lines.pct; if (pct < 80) { console.error('Coverage ' + pct + '% is below 80% threshold'); process.exit(1); } else { console.log('Coverage: ' + pct + '%'); }")
+          COVERAGE=$(node -e "const data = require('./coverage/coverage-summary.json'); const pct = data.total.lines.pct; if (pct < 80) { console.error('Coverage ' + pct + '% is below 80% threshold'); process.exit(1); } else { console.log('Coverage: ' + pct + '%'); }") || echo "coverage_failed=true" >> $GITHUB_ENV
       
       - name: Build project
-        run: npm run build
+        continue-on-error: true
+        id: build
+        run: npm run build || echo "build_failed=true" >> $GITHUB_ENV
       
       - name: Generate validation report
-        run: |
-          echo "## Validation Report" > validation-report.md
-          echo "- Linting: PASSED" >> validation-report.md
-          echo "- Formatting: PASSED" >> validation-report.md
-          echo "- Tests: PASSED" >> validation-report.md
-          echo "- Coverage: $(node -e "const data = require('./coverage/coverage-summary.json'); console.log(data.total.lines.pct + '%');")" >> validation-report.md
-          echo "- Build: PASSED" >> validation-report.md
+        if: always()
+        run: npm run report || true
+      
+      - name: Upload HTML report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: validation-report-html
+          path: reports/validation-report.html
+          retention-days: 30
+      
+      - name: Upload JSON report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: validation-report-json
+          path: reports/validation-report.json
+          retention-days: 30
       
       - name: Upload coverage reports
+        if: always()
         uses: actions/upload-artifact@v3
         with:
           name: coverage-report
           path: coverage/
+          retention-days: 30
       
-      - name: Upload validation report
+      - name: Upload Semgrep results
+        if: always()
         uses: actions/upload-artifact@v3
         with:
-          name: validation-report
-          path: validation-report.md
+          name: semgrep-results
+          path: reports/semgrep-results.json
+          retention-days: 30
+          if-no-files-found: ignore
+      
+      - name: Upload OPA results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: opa-results
+          path: reports/opa-results.json
+          retention-days: 30
+          if-no-files-found: ignore
+      
+      - name: Send email notification on failure
+        if: failure()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.SMTP_SERVER }}
+          server_port: ${{ secrets.SMTP_PORT }}
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          subject: '❌ CI Pipeline Failed - SDLC1 Validation'
+          to: ${{ secrets.EMAIL_TO }}
+          from: ${{ secrets.EMAIL_FROM }}
+          body: |
+            CI Pipeline validation failed for commit ${{ github.sha }}
+            
+            Repository: ${{ github.repository }}
+            Branch: ${{ github.ref }}
+            Author: ${{ github.actor }}
+            
+            Please check the validation report in GitHub Actions artifacts.
+            
+            View run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          attachments: reports/validation-report.html
+      
+      - name: Fail job if validation failed
+        if: env.lint_failed == 'true' || env.format_failed == 'true' || env.tests_failed == 'true' || env.coverage_failed == 'true' || env.build_failed == 'true' || env.semgrep_failed == 'true' || env.opa_failed == 'true'
+        run: |
+          echo "❌ Validation failed. Check report artifacts."
+          echo "Failed checks:"
+          [ "${{ env.lint_failed }}" == "true" ] && echo "  - Linting"
+          [ "${{ env.format_failed }}" == "true" ] && echo "  - Formatting"
+          [ "${{ env.tests_failed }}" == "true" ] && echo "  - Tests"
+          [ "${{ env.coverage_failed }}" == "true" ] && echo "  - Coverage"
+          [ "${{ env.build_failed }}" == "true" ] && echo "  - Build"
+          [ "${{ env.semgrep_failed }}" == "true" ] && echo "  - Semgrep (Security)"
+          [ "${{ env.opa_failed }}" == "true" ] && echo "  - OPA (Policy)"
+          exit 1
 

@@ -1,0 +1,38 @@
+rules:
+  - id: typescript-no-any
+    pattern: "$X: any"
+    message: "Use of 'any' type violates coding standards. Use specific types instead."
+    languages:
+      - typescript
+    severity: ERROR
+
+  - id: nestjs-missing-validation
+    pattern: |
+      @Body() $DTO
+    pattern-not: |
+      @Body() $DTO: $TYPE
+    message: "DTOs must be explicitly typed. Add type annotation like: @Body() dto: CreateItemDto"
+    languages:
+      - typescript
+    severity: ERROR
+
+  - id: security-hardcoded-secrets
+    pattern-either:
+      - pattern: 'password = $VALUE'
+      - pattern: 'api_key = $VALUE'
+      - pattern: 'api-key = $VALUE'
+      - pattern: 'secret = $VALUE'
+    message: "Hardcoded secrets detected. Use environment variables instead."
+    languages:
+      - typescript
+      - javascript
+    severity: ERROR
+
+  - id: security-sql-injection
+    pattern: |
+      $QUERY.exec(...)
+    message: "Potential SQL injection. Use parameterized queries."
+    languages:
+      - typescript
+      - javascript
+    severity: ERROR

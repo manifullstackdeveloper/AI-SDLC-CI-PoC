@@ -8,4 +8,3 @@ import { ItemsService } from './items/items.service';
   providers: [ItemsService],
 })
 export class AppModule {}
-

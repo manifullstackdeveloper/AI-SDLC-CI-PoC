@@ -5,6 +5,10 @@ globs: "src/**/*.ts"
 
 # NestJS Patterns
 
+**Follow NestJS patterns from `.standards/common-standards.md`.**
+
+## Quick Reference
+
 - Use modules to organize features
 - Controllers handle HTTP requests/responses only
 - Services contain business logic
@@ -13,3 +17,5 @@ globs: "src/**/*.ts"
 - Logger instance in every service
 - Proper HTTP status codes (201 for create, 204 for delete, etc.)
 - Exception filters for error handling
+
+**Complete NestJS patterns**: See `.standards/common-standards.md` → NestJS Patterns section

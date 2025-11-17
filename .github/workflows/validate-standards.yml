@@ -11,9 +11,10 @@ jobs:
       - uses: actions/checkout@v4
       - name: Verify rules files exist
         run: |
+          test -f .standards/common-standards.md && echo "✓ Common standards found" || exit 1
           test -d .cursor/rules && echo "✓ .cursor/rules directory found" || exit 1
           test -f .cursor/rules/coding-standards.mdc && echo "✓ coding-standards.mdc found" || exit 1
-          test -f claude.md && echo "✓ claude.md found" || exit 1
+          test -f .claude/claude.md && echo "✓ .claude/claude.md found" || exit 1
           test -f .github/copilot-instructions.md && echo "✓ copilot-instructions.md found" || exit 1
       - name: Check code compliance
         run: |

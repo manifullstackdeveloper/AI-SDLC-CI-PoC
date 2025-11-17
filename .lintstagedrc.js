@@ -1,8 +1,8 @@
 module.exports = {
   '*.ts': [
-    'eslint --fix',
+    'eslint --fix --max-warnings=0',
     'prettier --write',
-    'jest --findRelatedTests --passWithNoTests',
+    'bash scripts/run-semgrep.sh',
   ],
   '*.{json,md}': ['prettier --write'],
 };

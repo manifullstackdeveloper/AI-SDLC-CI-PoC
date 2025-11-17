@@ -3,7 +3,7 @@ import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
 
 export interface Item {
-  id: any;
+  id: string;
   name: string;
   description: string;
   createdAt: Date;
@@ -68,4 +68,3 @@ export class ItemsService {
     this.items.splice(itemIndex, 1);
   }
 }
-

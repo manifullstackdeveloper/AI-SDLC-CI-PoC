@@ -4,7 +4,6 @@ import { ItemsService } from './items.service';
 
 describe('ItemsController', () => {
   let controller: ItemsController;
-  let service: ItemsService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -13,7 +12,6 @@ describe('ItemsController', () => {
     }).compile();
 
     controller = module.get<ItemsController>(ItemsController);
-    service = module.get<ItemsService>(ItemsService);
   });
 
   it('should be defined', () => {
@@ -36,4 +34,3 @@ describe('ItemsController', () => {
     });
   });
 });
-

@@ -13,4 +13,3 @@ export class CreateItemDto {
   @MaxLength(500)
   description: string;
 }
-

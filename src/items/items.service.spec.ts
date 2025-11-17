@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ItemsService, Item } from './items.service';
+import { ItemsService } from './items.service';
 import { NotFoundException } from '@nestjs/common';
 
 describe('ItemsService', () => {
@@ -72,4 +72,3 @@ describe('ItemsService', () => {
     });
   });
 });
-

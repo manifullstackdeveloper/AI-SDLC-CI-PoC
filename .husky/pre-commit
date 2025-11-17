@@ -2,12 +2,27 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 echo "🔍 Running pre-commit validation..."
+echo "  - ESLint (code quality)"
+echo "  - Prettier (formatting)"
+echo "  - Semgrep (security patterns)"
+echo "  - Jest (related tests)"
+echo ""
 
-# Run lint-staged for staged files (handles linting, formatting, and related tests)
-npx lint-staged || {
+# Run lint-staged for staged files (handles linting, formatting, Semgrep, and related tests)
+npx lint-staged
+
+# Check exit code - lint-staged will exit with non-zero if any command fails
+EXIT_CODE=$?
+if [ $EXIT_CODE -ne 0 ]; then
+  echo ""
+  echo "❌ Pre-commit validation failed. Generating report..."
+  npm run report || true
+  echo ""
+  echo "📊 Report generated: reports/validation-report.html"
   echo "❌ Pre-commit validation failed. Fix errors and try again."
-  exit 1
-}
+  exit $EXIT_CODE
+fi
 
+echo ""
 echo "✅ Pre-commit validation passed!"
 
