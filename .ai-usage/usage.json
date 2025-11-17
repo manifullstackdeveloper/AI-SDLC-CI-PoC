@@ -15,6 +15,71 @@
       "branch": "main",
       "userId": "mani",
       "prompt": null
+    },
+    {
+      "id": "session-1763392891793-p90oj61qi",
+      "timestamp": "2025-11-17T15:21:31.793Z",
+      "tool": "Unknown",
+      "model": "unknown",
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "total": 0
+      },
+      "files": [
+        {
+          "path": "README.md",
+          "lines": 182,
+          "size": 3956,
+          "modified": "2025-11-17T15:21:23.778Z"
+        },
+        {
+          "path": "package-lock.json",
+          "lines": 12364,
+          "size": 444322,
+          "modified": "2025-11-17T15:21:23.918Z"
+        },
+        {
+          "path": "src/app.module.ts",
+          "lines": 13,
+          "size": 418,
+          "modified": "2025-11-17T15:21:26.800Z"
+        },
+        {
+          "path": "src/audit/audit.controller.spec.ts",
+          "lines": 38,
+          "size": 1046,
+          "modified": "2025-11-17T15:21:26.800Z"
+        },
+        {
+          "path": "src/audit/audit.controller.ts",
+          "lines": 15,
+          "size": 477,
+          "modified": "2025-11-17T15:21:26.800Z"
+        },
+        {
+          "path": "src/audit/audit.service.spec.ts",
+          "lines": 94,
+          "size": 2768,
+          "modified": "2025-11-17T15:21:26.800Z"
+        },
+        {
+          "path": "src/audit/audit.service.ts",
+          "lines": 172,
+          "size": 5192,
+          "modified": "2025-11-17T15:21:26.800Z"
+        },
+        {
+          "path": "src/audit/dto/audit-query.dto.ts",
+          "lines": 18,
+          "size": 427,
+          "modified": "2025-11-17T15:21:26.800Z"
+        }
+      ],
+      "commit": "a3737842a105dd9ce295a6e3fe65f52d80034bcb",
+      "branch": "main",
+      "userId": "Priyanka Sharma",
+      "prompt": null
     }
   ],
   "summary": {
@@ -23,24 +88,37 @@
         "sessions": 1,
         "tokens": 2300,
         "files": 0
+      },
+      "Unknown": {
+        "sessions": 1,
+        "tokens": 0,
+        "files": 8
       }
     },
     "byModel": {
       "claude-3-opus": {
         "sessions": 1,
         "tokens": 2300
+      },
+      "unknown": {
+        "sessions": 1,
+        "tokens": 0
       }
     },
     "byUser": {
       "mani": {
         "sessions": 1,
         "tokens": 2300
+      },
+      "Priyanka Sharma": {
+        "sessions": 1,
+        "tokens": 0
       }
     },
-    "totalSessions": 1,
+    "totalSessions": 2,
     "totalTokens": 2300,
     "totalInputTokens": 1500,
     "totalOutputTokens": 800,
-    "totalFiles": 0
+    "totalFiles": 8
   }
 }
