@@ -86,6 +86,7 @@ git push --no-verify     # Skip pre-push hook
 - `GET /items/:id` - Get item by ID
 - `PATCH /items/:id` - Update item
 - `DELETE /items/:id` - Delete item
+- `GET /audit` - Read AI usage audit summary (optional `limit` query to return the most recent sessions)
 
 ## Validation Reports
 
