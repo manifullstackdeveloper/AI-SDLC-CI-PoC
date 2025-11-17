@@ -33,4 +33,29 @@ describe('ItemsController', () => {
       expect(Array.isArray(result)).toBe(true);
     });
   });
+
+  describe('findOne', () => {
+    it('should return an item by id', () => {
+      const created = controller.create({ name: 'Test', description: 'Test' });
+      const result = controller.findOne(created.id);
+      expect(result.id).toBe(created.id);
+      expect(result.name).toBe('Test');
+    });
+  });
+
+  describe('update', () => {
+    it('should update an item', () => {
+      const created = controller.create({ name: 'Test', description: 'Test' });
+      const result = controller.update(created.id, { name: 'Updated' });
+      expect(result.name).toBe('Updated');
+    });
+  });
+
+  describe('remove', () => {
+    it('should remove an item', () => {
+      const created = controller.create({ name: 'Test', description: 'Test' });
+      controller.remove(created.id);
+      expect(() => controller.findOne(created.id)).toThrow();
+    });
+  });
 });
