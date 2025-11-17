@@ -73,6 +73,10 @@ jobs:
         if: always()
         run: npm run report || true
       
+      - name: Generate AI usage report
+        if: always()
+        run: npm run ai:report || true
+      
       - name: Upload HTML report
         if: always()
         uses: actions/upload-artifact@v4
@@ -88,6 +92,33 @@ jobs:
           name: validation-report-json
           path: reports/validation-report.json
           retention-days: 30
+      
+      - name: Upload AI usage HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-usage-report-html
+          path: reports/ai-usage-report.html
+          retention-days: 30
+          if-no-files-found: ignore
+      
+      - name: Upload AI usage JSON report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-usage-report-json
+          path: reports/ai-usage-report.json
+          retention-days: 30
+          if-no-files-found: ignore
+      
+      - name: Upload AI usage data
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-usage-data
+          path: .ai-usage/
+          retention-days: 30
+          if-no-files-found: ignore
       
       - name: Upload coverage reports
         if: always()

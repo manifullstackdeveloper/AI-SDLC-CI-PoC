@@ -21,6 +21,9 @@
     "security": "npm run semgrep && npm run opa",
     "report": "node scripts/generate-report.js",
     "report:email": "node scripts/generate-report.js && node scripts/send-email.js",
+    "ai:track": "node scripts/track-ai-usage.js",
+    "ai:report": "node scripts/generate-ai-usage-report.js",
+    "ai:track:model": "node scripts/track-ai-usage.js --model",
     "prepare": "husky install",
     "postinstall": "npm run build || true"
   },

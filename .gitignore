@@ -6,4 +6,6 @@ coverage
 .DS_Store
 .husky/_
 reports/
+# Keep AI usage data tracked for audit purposes
+# .ai-usage/
 

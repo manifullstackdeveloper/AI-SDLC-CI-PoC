@@ -117,6 +117,41 @@ Requires SMTP configuration (see below)
 - Email notification sent on failure (if configured)
 - Reports available for 30 days
 
+## AI Usage Tracking & Reports
+
+**Automatic tracking:**
+
+AI usage is automatically tracked on every commit via git hooks. No action needed!
+
+**Generate AI usage report:**
+
+```bash
+npm run ai:report
+```
+
+Creates `reports/ai-usage-report.html` with:
+
+- Total sessions and tokens
+- Usage by AI tool (Cursor, Claude, Copilot)
+- Usage by model
+- Usage by user
+- Most modified files
+- Complete audit trail
+
+**Manual tracking:**
+
+```bash
+npm run ai:track -- --model claude-3-opus --input-tokens 1500 --output-tokens 800
+```
+
+**View reports:**
+
+- HTML: `reports/ai-usage-report.html`
+- JSON: `reports/ai-usage-report.json`
+- Data: `.ai-usage/usage.json`
+
+See [AI-USAGE-TRACKING.md](./AI-USAGE-TRACKING.md) for complete documentation.
+
 ## Email Configuration
 
 **For local email notifications**, create `.env` file:

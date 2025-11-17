@@ -26,3 +26,8 @@ fi
 echo ""
 echo "✅ Pre-commit validation passed!"
 
+# Track AI usage if AI tool detected
+echo ""
+echo "🤖 Tracking AI usage..."
+node scripts/track-ai-usage.js || true
+

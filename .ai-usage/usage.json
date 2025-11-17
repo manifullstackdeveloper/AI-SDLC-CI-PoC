@@ -1,0 +1,46 @@
+{
+  "sessions": [
+    {
+      "id": "session-1763387894233-6ig720g6m",
+      "timestamp": "2025-11-17T13:58:14.233Z",
+      "tool": "Cursor",
+      "model": "claude-3-opus",
+      "tokens": {
+        "input": 1500,
+        "output": 800,
+        "total": 2300
+      },
+      "files": [],
+      "commit": "bc8c87128bc52736a10f7b11454597448053246b",
+      "branch": "main",
+      "userId": "mani",
+      "prompt": null
+    }
+  ],
+  "summary": {
+    "byTool": {
+      "Cursor": {
+        "sessions": 1,
+        "tokens": 2300,
+        "files": 0
+      }
+    },
+    "byModel": {
+      "claude-3-opus": {
+        "sessions": 1,
+        "tokens": 2300
+      }
+    },
+    "byUser": {
+      "mani": {
+        "sessions": 1,
+        "tokens": 2300
+      }
+    },
+    "totalSessions": 1,
+    "totalTokens": 2300,
+    "totalInputTokens": 1500,
+    "totalOutputTokens": 800,
+    "totalFiles": 0
+  }
+}
